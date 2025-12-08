@@ -17,13 +17,13 @@ class AdminUserSeeder extends Seeder
         User::create([
             'name' => 'Admin',
             'email' => 'admin@mahasinalsharq.com',
-            'password' => Hash::make('password'), // Change this to a secure password
+            'password' => Hash::make('P@ssw0rd_21'), // Change this to a secure password
             'email_verified_at' => now(),
         ]);
 
         $this->command->info('Admin user created successfully!');
         $this->command->info('Email: admin@mahasinalsharq.com');
-        $this->command->info('Password: password');
+        $this->command->info('Password: P@ssw0rd_21');
         $this->command->warn('Please change the password after first login!');
     }
 }
