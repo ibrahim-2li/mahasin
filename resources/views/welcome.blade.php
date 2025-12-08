@@ -157,8 +157,8 @@
                     <img src="{{ $contents['about']['image'] ?? '/images/warehouse.jpg' }}" alt="About Us" class="relative rounded-3xl shadow-2xl w-full object-cover h-[500px] z-10">
                     <!-- Experience Badge -->
                     <div class="absolute bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl z-20 hidden md:block">
-                        <p class="text-4xl font-bold text-brand-orange mb-1">+15</p>
-                        <p class="text-slate-600 font-medium text-sm">عاماً من الخبرة</p>
+                        <p class="text-4xl font-bold text-brand-orange mb-1">+4</p>
+                        <p class="text-slate-600 font-medium text-sm">أعوام من الخبرة</p>
                     </div>
                 </div>
                 <div class="space-y-8 scroll-reveal">
@@ -290,9 +290,32 @@
                     </div>
     </section>
 
+    <!-- Partners Section -->
+    <section id="partners" class="py-24 bg-gray-50 relative overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-orange-500/5 rounded-full blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">شركاؤنا</span>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mt-2 mb-4">نفخر بشراكتنا مع الأفضل</h2>
+                <div class="w-24 h-1.5 bg-brand-orange mx-auto rounded-full"></div>
+                <p class="text-slate-600 mt-4 max-w-2xl mx-auto">نعمل مع شركاء موثوقين لتقديم أفضل المنتجات والخدمات لعملائنا</p>
+            </div>
+
+            <div id="partnersGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Partners will be loaded here -->
+                <div class="col-span-full text-center py-12">
+                    <svg class="animate-spin h-8 w-8 text-brand-orange mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Branches Section -->
+
     <section id="branches" class="py-24 bg-white relative overflow-hidden">
-        <div class="absolute inset-0 bg-[url('/images/pattern.png')] opacity-5"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center mb-16 scroll-reveal">
                 <span class="text-brand-orange font-bold tracking-wider uppercase text-sm">توسعنا</span>
@@ -514,6 +537,49 @@
             }
         });
 
+        // Load Partners
+        function loadPartners() {
+            const grid = document.getElementById('partnersGrid');
+            const noPartners = document.createElement('div');
+            noPartners.className = 'col-span-full text-center py-12 text-slate-500';
+            noPartners.textContent = 'لا توجد شركاء مضافة';
+            grid.innerHTML = '';
+            fetch('/api/partners')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        grid.appendChild(noPartners);
+                    } else {
+                        data.forEach(partner => {
+                            const card = document.createElement('div');
+                            card.className = 'bg-white rounded-xl shadow-md p-4 flex flex-col items-center hover:shadow-lg transition-shadow';
+                            const img = document.createElement('img');
+                            img.src = partner.logo;
+                            img.alt = partner.name;
+                            img.className = 'h-16 w-auto mb-4 object-contain';
+                            const name = document.createElement('h3');
+                            name.className = 'text-lg font-bold text-slate-800 mb-2';
+                            name.textContent = partner.name;
+                            card.appendChild(img);
+                            card.appendChild(name);
+                            if (partner.website) {
+                                const link = document.createElement('a');
+                                link.href = partner.website;
+                                link.target = '_blank';
+                                link.rel = 'noopener';
+                                link.className = 'text-brand-orange hover:underline';
+                                link.textContent = ' ';
+                                card.appendChild(link);
+                            }
+                            grid.appendChild(card);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading partners:', error);
+                    grid.innerHTML = '<div class="col-span-full text-center py-12 text-red-500">حدث خطأ أثناء تحميل الشركاء</div>';
+                });
+        }
         // Load Branches
         function loadBranchesOnHomepage() {
             const grid = document.getElementById('branchesGrid');
@@ -571,11 +637,15 @@
                 });
         }
 
-        // Load branches when DOM is ready
+        // Load branches and partners when DOM is ready
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadBranchesOnHomepage);
+            document.addEventListener('DOMContentLoaded', function() {
+                loadBranchesOnHomepage();
+                loadPartners();
+            });
         } else {
             loadBranchesOnHomepage();
+            loadPartners();
         }
     </script>
 </body>

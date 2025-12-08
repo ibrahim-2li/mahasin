@@ -125,4 +125,91 @@ class AdminController extends Controller
         $branch->delete();
         return response()->json(['success' => true]);
     }
+
+    // Get Partners (Admin & Public)
+    public function getPartners()
+    {
+        $partners = \App\Models\Partner::orderBy('order')->get();
+        return response()->json($partners);
+    }
+
+    // Store Partner (Admin)
+    public function storePartner(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website' => 'nullable|url',
+            'order' => 'nullable|integer',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $logo->move(public_path('images/partners'), $filename);
+            $validated['logo'] = '/images/partners/' . $filename;
+        }
+
+        \App\Models\Partner::create($validated);
+
+        return response()->json(['success' => true, 'message' => 'تم إضافة الشريك بنجاح']);
+    }
+
+    // Delete Partner (Admin)
+    public function deletePartner($id)
+    {
+        $partner = \App\Models\Partner::findOrFail($id);
+        
+        // Delete logo file
+        if ($partner->logo && file_exists(public_path($partner->logo))) {
+            unlink(public_path($partner->logo));
+        }
+        
+        $partner->delete();
+        return response()->json(['success' => true]);
+    }
+    // Update Branch (Admin)
+    public function updateBranch(Request $request, $id)
+    {
+        $branch = \App\Models\Branch::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'region' => 'required|string|max:255',
+            'map_url' => 'required|url',
+        ]);
+
+        $branch->update($validated);
+
+        return response()->json(['success' => true, 'message' => 'تم تحديث الفرع بنجاح']);
+    }
+
+    // Update Partner (Admin)
+    public function updatePartner(Request $request, $id)
+    {
+        $partner = \App\Models\Partner::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website' => 'nullable|url',
+            'order' => 'nullable|integer',
+        ]);
+
+        if ($request->hasFile('logo')) {
+            // Delete old logo
+            if ($partner->logo && file_exists(public_path($partner->logo))) {
+                unlink(public_path($partner->logo));
+            }
+            
+            $logo = $request->file('logo');
+            $filename = time() . '_' . $logo->getClientOriginalName();
+            $logo->move(public_path('images/partners'), $filename);
+            $validated['logo'] = '/images/partners/' . $filename;
+        }
+
+        $partner->update($validated);
+
+        return response()->json(['success' => true, 'message' => 'تم تحديث الشريك بنجاح']);
+    }
 }

@@ -61,6 +61,13 @@
                 </svg>
                 <span class="font-bold">الفروع (Branches)</span>
             </button>
+
+            <button onclick="showSection('partners'); loadPartners();" id="nav-partners" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-gray-50 rounded-lg transition-all">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span class="font-bold">الشركاء (Partners)</span>
+            </button>
             
             <button onclick="showSection('messages'); loadMessages();" id="nav-messages" class="sidebar-link w-full flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-gray-50 rounded-lg transition-all">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -390,6 +397,71 @@
             </div>
         </div>
 
+        <!-- Partners Section Content -->
+        <div id="partners" class="content-section space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="p-6 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-brand-orange rounded-full"></span>
+                        قائمة الشركاء
+                    </h2>
+                    <button onclick="loadPartners()" class="text-brand-orange hover:text-orange-700 font-bold text-sm flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        تحديث
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right">
+                        <thead class="bg-gray-50 text-slate-600 font-bold text-sm">
+                            <tr>
+                                <th class="p-4 border-b border-gray-100">اسم الشريك</th>
+                                <th class="p-4 border-b border-gray-100">الموقع</th>
+                                <th class="p-4 border-b border-gray-100">الترتيب</th>
+                                <th class="p-4 border-b border-gray-100">الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="partnersTableBody" class="text-slate-700">
+                            <!-- Partners will be loaded here -->
+                        </tbody>
+                    </table>
+                    <div id="noPartners" class="hidden p-8 text-center text-slate-500">لا توجد شركاء مضافة</div>
+                </div>
+            </div>
+
+            <!-- Add Partner Form -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mt-8">
+                <div class="p-6 border-b border-gray-100 bg-gray-50/50">
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-brand-orange rounded-full"></span>
+                        إضافة شريك جديد
+                    </h2>
+                </div>
+                <div class="p-8">
+                    <form onsubmit="addPartner(event)" class="grid md:grid-cols-4 gap-6 items-end">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">اسم الشريك</label>
+                            <input type="text" name="name" required placeholder="مثال: شركة أ" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">شعار (صورة)</label>
+                            <input type="file" name="logo" accept="image/*" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange outline-none bg-white" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">الموقع (URL)</label>
+                            <input type="url" name="website" placeholder="https://example.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">الترتيب</label>
+                            <input type="number" name="order" value="0" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all" />
+                        </div>
+                        <div class="md:col-span-4">
+                            <button type="submit" class="w-full py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-700 transition-colors font-bold shadow-lg hover:shadow-xl">إضافة الشريك</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Messages Section Content -->
         <div id="messages" class="content-section space-y-6">
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -399,9 +471,7 @@
                         الرسائل الواردة
                     </h2>
                     <button onclick="loadMessages()" class="text-brand-orange hover:text-orange-700 font-bold text-sm flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                         تحديث
                     </button>
                 </div>
@@ -420,9 +490,71 @@
                             <!-- Messages will be loaded here -->
                         </tbody>
                     </table>
-                    <div id="noMessages" class="hidden p-8 text-center text-slate-500">
-                        لا توجد رسائل جديدة
-                    </div>
+                    <div id="noMessages" class="hidden p-8 text-center text-slate-500">لا توجد رسائل جديدة</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Branch Modal -->
+        <div id="editBranchModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-white rounded-2xl w-full max-w-2xl mx-4 shadow-2xl transform transition-all">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-slate-800">تعديل الفرع</h3>
+                    <button onclick="closeModal('editBranchModal')" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <form id="editBranchForm" onsubmit="updateBranch(event)" class="space-y-6">
+                        <input type="hidden" name="id" id="edit_branch_id">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">اسم الفرع</label>
+                            <input type="text" name="name" id="edit_branch_name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">المنطقة</label>
+                            <input type="text" name="region" id="edit_branch_region" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">رابط الخريطة</label>
+                            <input type="url" name="map_url" id="edit_branch_map_url" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all" dir="ltr">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-700 transition-colors font-bold shadow-lg hover:shadow-xl">حفظ التغييرات</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Partner Modal -->
+        <div id="editPartnerModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-white rounded-2xl w-full max-w-2xl mx-4 shadow-2xl transform transition-all">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-slate-800">تعديل الشريك</h3>
+                    <button onclick="closeModal('editPartnerModal')" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <form id="editPartnerForm" onsubmit="updatePartner(event)" class="space-y-6">
+                        <input type="hidden" name="id" id="edit_partner_id">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">اسم الشريك</label>
+                            <input type="text" name="name" id="edit_partner_name" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">شعار (اتركه فارغاً للإبقاء على الحالي)</label>
+                            <input type="file" name="logo" accept="image/*" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange outline-none bg-white">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">الموقع (URL)</label>
+                            <input type="url" name="website" id="edit_partner_website" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-slate-700">الترتيب</label>
+                            <input type="number" name="order" id="edit_partner_order" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-orange focus:ring-4 focus:ring-orange-50 outline-none transition-all">
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-brand-orange text-white rounded-xl hover:bg-orange-700 transition-colors font-bold shadow-lg hover:shadow-xl">حفظ التغييرات</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -430,6 +562,9 @@
     </main>
 
     <script>
+        // Get CSRF token
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+
         // Tab Navigation
         function showSection(sectionId) {
             // Hide all sections
@@ -458,21 +593,24 @@
                     } else {
                         noBranches.classList.add('hidden');
                         data.forEach(branch => {
-                            const row = `
-                                <tr class="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                    <td class="p-4 font-bold">${branch.name}</td>
-                                    <td class="p-4">${branch.region}</td>
-                                    <td class="p-4 text-sm text-blue-500 truncate max-w-xs"><a href="${branch.map_url}" target="_blank" class="hover:underline">${branch.map_url}</a></td>
-                                    <td class="p-4 flex gap-2">
-                                        <button onclick="deleteBranch(${branch.id})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors" title="حذف">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                    </td>
-                                </tr>
+                            const row = document.createElement('tr');
+                            row.className = 'border-b border-gray-50 hover:bg-gray-50 transition-colors';
+                            row.innerHTML = `
+                                <td class="p-4 font-bold">${branch.name}</td>
+                                <td class="p-4">${branch.region}</td>
+                                <td class="p-4 text-sm text-blue-500 truncate max-w-xs"><a href="${branch.map_url}" target="_blank" class="hover:underline">${branch.map_url}</a></td>
+                                <td class="p-4 flex gap-2">
+                                    <button onclick='editBranch(${JSON.stringify(branch).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="تعديل">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                    </button>
+                                    <button onclick="deleteBranch(${branch.id})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors" title="حذف">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </td>
                             `;
-                            tbody.innerHTML += row;
+                            tbody.appendChild(row);
                         });
                     }
                 })
@@ -538,8 +676,91 @@
             .catch(error => console.error('Error:', error));
         }
 
-        // Get CSRF token
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+        // Load Partners (Admin)
+        function loadPartners() {
+            const tbody = document.getElementById('partnersTableBody');
+            const noPartners = document.getElementById('noPartners');
+            tbody.innerHTML = '<tr><td colspan="4" class="p-8 text-center"><svg class="animate-spin h-8 w-8 text-brand-orange mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></td></tr>';
+            
+            fetch('/admin/partners')
+                .then(r => r.json())
+                .then(data => {
+                    tbody.innerHTML = '';
+                    if (data.length === 0) {
+                        noPartners.classList.remove('hidden');
+                    } else {
+                        noPartners.classList.add('hidden');
+                        data.forEach(p => {
+                            const tr = document.createElement('tr');
+                            tr.className = 'border-b border-gray-50 hover:bg-gray-50 transition-colors';
+                            tr.innerHTML = `
+                                <td class="p-4 font-bold">${p.name}</td>
+                                <td class="p-4"><a href="${p.website}" target="_blank" class="text-brand-orange hover:underline">${p.website || '-'}</a></td>
+                                <td class="p-4 text-center">${p.order}</td>
+                                <td class="p-4 flex gap-2">
+                                    <button onclick='editPartner(${JSON.stringify(p).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="تعديل">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                    </button>
+                                    <button onclick="deletePartner(${p.id})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors" title="حذف">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading partners:', err);
+                    tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-red-500">حدث خطأ أثناء تحميل الشركاء</td></tr>';
+                });
+        }
+
+        // Add Partner (Admin)
+        function addPartner(event) {
+            event.preventDefault();
+            const form = event.target;
+            const btn = form.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = 'جاري الإضافة...';
+            btn.disabled = true;
+            const formData = new FormData(form);
+            fetch('/admin/partners', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    form.reset();
+                    loadPartners();
+                }
+            })
+            .catch(err => console.error('Error adding partner:', err))
+            .finally(() => { btn.innerHTML = original; btn.disabled = false; });
+        }
+
+        // Delete Partner (Admin)
+        function deletePartner(id) {
+            if (!confirm('هل أنت متأكد من حذف هذا الشريك؟')) return;
+            fetch(`/admin/partners/${id}`, {
+                method: 'DELETE',
+                headers: { 'X-CSRF-TOKEN': csrfToken }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess('تم حذف الشريك بنجاح');
+                    loadPartners();
+                }
+            })
+            .catch(err => console.error('Error deleting partner:', err));
+        }
+
+        // Get CSRF token - Removed duplicate
+        // const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
         // Load Messages
         function loadMessages() {
@@ -688,6 +909,90 @@
             setTimeout(() => {
                 successDiv.classList.add('hidden');
             }, 3000);
+        }
+        // Modal Functions
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Edit Branch
+        function editBranch(branch) {
+            document.getElementById('edit_branch_id').value = branch.id;
+            document.getElementById('edit_branch_name').value = branch.name;
+            document.getElementById('edit_branch_region').value = branch.region;
+            document.getElementById('edit_branch_map_url').value = branch.map_url;
+            openModal('editBranchModal');
+        }
+
+        // Update Branch
+        function updateBranch(event) {
+            event.preventDefault();
+            const form = event.target;
+            const id = document.getElementById('edit_branch_id').value;
+            const btn = form.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = 'جاري الحفظ...';
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            
+            fetch(`/admin/branches/${id}`, {
+                method: 'POST', // Using POST for FormData (Laravel handles method spoofing if needed, but here we use simple POST update)
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    closeModal('editBranchModal');
+                    loadBranches();
+                }
+            })
+            .catch(err => console.error('Error updating branch:', err))
+            .finally(() => { btn.innerHTML = original; btn.disabled = false; });
+        }
+
+        // Edit Partner
+        function editPartner(partner) {
+            document.getElementById('edit_partner_id').value = partner.id;
+            document.getElementById('edit_partner_name').value = partner.name;
+            document.getElementById('edit_partner_website').value = partner.website || '';
+            document.getElementById('edit_partner_order').value = partner.order || 0;
+            openModal('editPartnerModal');
+        }
+
+        // Update Partner
+        function updatePartner(event) {
+            event.preventDefault();
+            const form = event.target;
+            const id = document.getElementById('edit_partner_id').value;
+            const btn = form.querySelector('button[type="submit"]');
+            const original = btn.innerHTML;
+            btn.innerHTML = 'جاري الحفظ...';
+            btn.disabled = true;
+
+            const formData = new FormData(form);
+            
+            fetch(`/admin/partners/${id}`, {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': csrfToken },
+                body: formData
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    showSuccess(data.message);
+                    closeModal('editPartnerModal');
+                    loadPartners();
+                }
+            })
+            .catch(err => console.error('Error updating partner:', err))
+            .finally(() => { btn.innerHTML = original; btn.disabled = false; });
         }
     </script>
 </body>

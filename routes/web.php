@@ -17,6 +17,7 @@ Route::get('/', function () {
 // Public Routes
 Route::post('/send-message', [AdminController::class, 'sendMessage'])->name('send.message');
 Route::get('/api/branches', [AdminController::class, 'getBranches'])->name('branches.index');
+Route::get('/api/partners', [AdminController::class, 'getPartners'])->name('partners.index');
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
@@ -32,5 +33,13 @@ Route::prefix('admin')->group(function () {
     // Branch Routes (Admin)
     Route::get('/branches', [AdminController::class, 'getBranches'])->name('admin.branches.index');
     Route::post('/branches', [AdminController::class, 'storeBranch'])->name('admin.branches.store');
+    Route::post('/branches/{id}', [AdminController::class, 'updateBranch'])->name('admin.branches.update'); // Using POST for easier FormData handling
     Route::delete('/branches/{id}', [AdminController::class, 'deleteBranch'])->name('admin.branches.delete');
+
+    // Partner Routes (Admin)
+    Route::get('/partners', [AdminController::class, 'getPartners'])->name('admin.partners.index');
+    Route::post('/partners', [AdminController::class, 'storePartner'])->name('admin.partners.store');
+    Route::post('/partners/{id}', [AdminController::class, 'updatePartner'])->name('admin.partners.update'); // Using POST for easier FormData handling
+    Route::delete('/partners/{id}', [AdminController::class, 'deletePartner'])->name('admin.partners.delete');
 });
+
