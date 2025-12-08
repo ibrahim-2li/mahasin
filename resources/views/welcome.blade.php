@@ -82,10 +82,16 @@
                         class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">من
                         نحن</a>
                     <a href="#services"
-                        class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">منتجاتنا</a>
-                    <a href="#contact"
-                        class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">تواصل
-                        معنا</a>
+                        class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">خدماتنا
+                        <a href="#partners"
+                            class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">شركائنا
+                        </a>
+                        <a href="#branches"
+                            class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">فروعنا
+                        </a>
+                        <a href="#contact"
+                            class="text-slate-600 hover:text-brand-orange font-medium text-base transition-colors">تواصل
+                            معنا</a>
                 </div>
 
                 <!-- CTA Button -->
@@ -127,7 +133,15 @@
                 </a>
                 <a href="#services" onclick="toggleMobileMenu()"
                     class="block px-4 py-3 text-slate-700 hover:bg-orange-50 hover:text-brand-orange rounded-lg font-medium transition-colors">
-                    منتجاتنا
+                    خدماتنا
+                </a>
+                <a href="#partners" onclick="toggleMobileMenu()"
+                    class="block px-4 py-3 text-slate-700 hover:bg-orange-50 hover:text-brand-orange rounded-lg font-medium transition-colors">
+                    شركائنا
+                </a>
+                <a href="#branches" onclick="toggleMobileMenu()"
+                    class="block px-4 py-3 text-slate-700 hover:bg-orange-50 hover:text-brand-orange rounded-lg font-medium transition-colors">
+                    فروعنا
                 </a>
                 <a href="#contact" onclick="toggleMobileMenu()"
                     class="block px-4 py-3 text-slate-700 hover:bg-orange-50 hover:text-brand-orange rounded-lg font-medium transition-colors">
@@ -185,7 +199,8 @@
         <!-- Scroll Down Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
         </div>
     </section>
@@ -1207,17 +1222,17 @@
                                         </h3>
                                         
                                         ${partner.website ? `
-                                                                <!-- Website Link -->
-                                                                <a href="${partner.website}" 
-                                                                    target="_blank" 
-                                                                    rel="noopener noreferrer"
-                                                                    class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
-                                                                    <span>زيارة الموقع</span>
-                                                                    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                                                    </svg>
-                                                                </a>
-                                                            ` : ''}
+                                                                                    <!-- Website Link -->
+                                                                                    <a href="${partner.website}" 
+                                                                                        target="_blank" 
+                                                                                        rel="noopener noreferrer"
+                                                                                        class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
+                                                                                        <span>زيارة الموقع</span>
+                                                                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                                                        </svg>
+                                                                                    </a>
+                                                                                ` : ''}
                                     </div>
                                     
                                     <!-- Corner Accent -->

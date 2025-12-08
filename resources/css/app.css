@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom Brand Colors */
+@layer base {
+    :root {
+        --brand-orange: #ff6b35;
+        --brand-pink: #f72585;
+    }
+}
+
+/* Ensure buttons maintain their style */
+@layer components {
+    .bg-brand-orange {
+        background-color: #ff6b35;
+    }
+    
+    .hover\:bg-orange-700:hover {
+        background-color: #c2410c;
+    }
+    
+    .text-brand-orange {
+        color: #ff6b35;
+    }
+    
+    .border-brand-orange {
+        border-color: #ff6b35;
+    }
+}
