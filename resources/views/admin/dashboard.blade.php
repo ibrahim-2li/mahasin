@@ -156,11 +156,21 @@
 
             <!-- Success Toast -->
             <div id="successMessage"
-                class="hidden bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-bounce">
+                class="hidden fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-fade-in-up">
                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 <span id="successText" class="font-bold">تم الحفظ بنجاح</span>
+            </div>
+
+            <!-- Error Toast -->
+            <div id="errorMessage"
+                class="hidden fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 animate-fade-in-up">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span id="errorText" class="font-bold">حدث خطأ</span>
             </div>
         </header>
 
@@ -900,7 +910,8 @@
             fetch('/admin/partners', {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': csrfToken
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
                     },
                     body: formData
                 })
@@ -910,9 +921,18 @@
                         showSuccess(data.message);
                         form.reset();
                         loadPartners();
+                    } else {
+                        let msg = data.message || 'حدث خطأ أثناء إضافة الشريك';
+                        if (data.errors) {
+                            msg = Object.values(data.errors).flat().join('\n');
+                        }
+                        showError(msg);
                     }
                 })
-                .catch(err => console.error('Error adding partner:', err))
+                .catch(err => {
+                    console.error('Error adding partner:', err);
+                    showError('حدث خطأ في الاتصال بالسيرفر');
+                })
                 .finally(() => {
                     btn.innerHTML = original;
                     btn.disabled = false;
@@ -1095,6 +1115,18 @@
             setTimeout(() => {
                 successDiv.classList.add('hidden');
             }, 3000);
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.innerText = message; // Use innerText to handle newlines
+            errorDiv.classList.remove('hidden');
+
+            setTimeout(() => {
+                errorDiv.classList.add('hidden');
+            }, 5000);
         }
         // Modal Functions
         function openModal(id) {
