@@ -161,7 +161,7 @@
     <section id="home" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
         <!-- Background -->
         <div class="absolute inset-0 z-0">
-            <img src="{{ $contents['hero']['image'] ?? '/images/showroom.jpg' }}" alt="Hero Background"
+            <img src="{{ $contents['hero']['image'] ?? '/images/hero.jpg' }}" alt="Hero Background"
                 class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-slate-900/60 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80">
@@ -1222,17 +1222,17 @@
                                         </h3>
                                         
                                         ${partner.website ? `
-                                                                                    <!-- Website Link -->
-                                                                                    <a href="${partner.website}" 
-                                                                                        target="_blank" 
-                                                                                        rel="noopener noreferrer"
-                                                                                        class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
-                                                                                        <span>زيارة الموقع</span>
-                                                                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                                                                        </svg>
-                                                                                    </a>
-                                                                                ` : ''}
+                                                                                        <!-- Website Link -->
+                                                                                        <a href="${partner.website}" 
+                                                                                            target="_blank" 
+                                                                                            rel="noopener noreferrer"
+                                                                                            class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
+                                                                                            <span>زيارة الموقع</span>
+                                                                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                                                            </svg>
+                                                                                        </a>
+                                                                                    ` : ''}
                                     </div>
                                     
                                     <!-- Corner Accent -->
