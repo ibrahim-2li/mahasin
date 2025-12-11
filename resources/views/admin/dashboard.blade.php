@@ -47,10 +47,20 @@
 
 <body class="bg-gray-50 text-slate-800 h-screen overflow-hidden flex">
 
+    <!-- Mobile Overlay -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()"
+        class="fixed inset-0 bg-black/50 z-20 hidden backdrop-blur-sm transition-opacity" aria-hidden="true"></div>
+
     <!-- Sidebar -->
-    <aside class="w-64 bg-white border-l border-gray-200 flex flex-col h-full shadow-sm z-10">
-        <div class="p-6 border-b border-gray-100 flex items-center justify-center">
+    <aside id="sidebar"
+        class="fixed inset-y-0 right-0 z-30 w-64 bg-white border-l border-gray-200 flex flex-col h-full shadow-sm transform transition-transform duration-300 translate-x-full md:translate-x-0 md:static">
+        <div class="p-6 border-b border-gray-100 flex items-center justify-center relative">
             <img src="{{ asset('images/logo.png') }}" alt="محاسن الشرق" class="h-10 w-auto">
+            <button onclick="toggleSidebar()" class="absolute left-4 text-slate-400 hover:text-red-500 md:hidden">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
 
         <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
@@ -146,7 +156,22 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto bg-gray-50 p-8">
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-4 md:p-8">
+        <!-- Mobile Header -->
+        <div
+            class="md:hidden flex items-center justify-between mb-6 bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div class="flex items-center gap-2">
+                <img src="{{ asset('images/logo.png') }}" class="h-8 w-auto">
+                <span class="font-bold text-slate-800">لوحة التحكم</span>
+            </div>
+            <button onclick="toggleSidebar()"
+                class="p-2 text-slate-600 bg-gray-50 rounded-lg hover:bg-brand-orange hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
 
         <!-- Header -->
         <header class="flex justify-between items-center mb-8">
@@ -789,8 +814,25 @@
         // Get CSRF token
         const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
 
+        // Toggle Sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            sidebar.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
         // Tab Navigation
         function showSection(sectionId) {
+            // Close sidebar on mobile
+            if (window.innerWidth < 768) {
+                const sidebar = document.getElementById('sidebar');
+                if (!sidebar.classList.contains('translate-x-full')) {
+                    toggleSidebar();
+                }
+            }
+
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(el => el.classList.remove('active'));
             // Show target section
