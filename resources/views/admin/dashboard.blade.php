@@ -116,7 +116,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                 </svg>
-                <span class="font-bold">الرسائل الواردة</span>
+                <span class="font-bold">الرسائل الواردة</span><span id="unreadMessagesCount"
+                    class="bg-red-500 text-white text-xs px-2 py-1 rounded-full hidden">0</span>
             </button>
         </nav>
 
@@ -692,6 +693,51 @@
             </div>
         </div>
 
+        <!-- View Message Modal -->
+        <div id="viewMessageModal"
+            class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center backdrop-blur-sm">
+            <div class="bg-white rounded-2xl w-full max-w-lg mx-4 shadow-2xl transform transition-all">
+                <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                    <h3 class="text-xl font-bold text-slate-800">تفاصيل الرسالة</h3>
+                    <button onclick="closeModal('viewMessageModal')" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label
+                            class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">الاسم</label>
+                        <p id="view_msg_name" class="text-slate-800 font-bold text-lg"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">رقم
+                            الجوال</label>
+                        <p id="view_msg_phone" class="text-slate-800 font-mono text-lg" dir="ltr"></p>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">تاريخ
+                            الإرسال</label>
+                        <p id="view_msg_date" class="text-slate-600 text-sm"></p>
+                    </div>
+                    <div class="pt-4 border-t border-gray-100">
+                        <label
+                            class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">الرسالة</label>
+                        <div class="bg-gray-50 p-4 rounded-xl text-slate-700 leading-relaxed whitespace-pre-wrap"
+                            id="view_msg_content"></div>
+                    </div>
+                </div>
+                <div class="p-6 border-t border-gray-100 flex justify-end">
+                    <button onclick="closeModal('viewMessageModal')"
+                        class="px-6 py-2.5 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-colors font-bold">
+                        إغلاق
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Edit Partner Modal -->
         <div id="editPartnerModal"
             class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center backdrop-blur-sm">
@@ -973,6 +1019,17 @@
                 .then(response => response.json())
                 .then(data => {
                     tbody.innerHTML = '';
+
+                    // Update unread count
+                    const unreadCount = data.filter(m => !m.is_read).length;
+                    const badge = document.getElementById('unreadMessagesCount');
+                    if (unreadCount > 0) {
+                        badge.innerText = unreadCount;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+
                     if (data.length === 0) {
                         noMessages.classList.remove('hidden');
                     } else {
@@ -986,6 +1043,12 @@
                                     <td class="p-4 max-w-xs truncate" title="${msg.message}">${msg.message}</td>
                                     <td class="p-4 text-sm text-gray-500">${date}</td>
                                     <td class="p-4 flex gap-2">
+                                        <button onclick='viewMessage(${JSON.stringify(msg).replace(/'/g, "&#39;")})' class="text-blue-500 hover:text-blue-700 p-2 rounded-lg hover:bg-blue-50 transition-colors" title="التفاصيل">
+                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                        </button>
                                         <button onclick="deleteMessage(${msg.id})" class="text-red-500 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors" title="حذف">
                                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -1003,6 +1066,35 @@
                     tbody.innerHTML =
                         '<tr><td colspan="5" class="p-4 text-center text-red-500">حدث خطأ أثناء تحميل الرسائل</td></tr>';
                 });
+        }
+
+        // View Message
+        function viewMessage(msg) {
+            document.getElementById('view_msg_name').textContent = msg.name;
+            document.getElementById('view_msg_phone').textContent = msg.phone;
+            document.getElementById('view_msg_content').textContent = msg.message;
+            document.getElementById('view_msg_date').textContent = new Date(msg.created_at).toLocaleDateString('ar-SA', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            openModal('viewMessageModal');
+
+            // Mark as read if not already
+            if (!msg.is_read) {
+                fetch(`/admin/messages/${msg.id}/read`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                }).then(() => {
+                    // Reload messages to update UI (remove bold, update count)
+                    loadMessages();
+                });
+            }
         }
 
         // Delete Message
@@ -1222,6 +1314,10 @@
                     btn.disabled = false;
                 });
         }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMessages();
+        });
     </script>
 </body>
 
