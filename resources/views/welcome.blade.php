@@ -1222,17 +1222,17 @@
                                         </h3>
                                         
                                         ${partner.website ? `
-                                                                                        <!-- Website Link -->
-                                                                                        <a href="${partner.website}" 
-                                                                                            target="_blank" 
-                                                                                            rel="noopener noreferrer"
-                                                                                            class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
-                                                                                            <span>زيارة الموقع</span>
-                                                                                            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                                                                            </svg>
-                                                                                        </a>
-                                                                                    ` : ''}
+                                                                                                    <!-- Website Link -->
+                                                                                                    <a href="${partner.website}" 
+                                                                                                        target="_blank" 
+                                                                                                        rel="noopener noreferrer"
+                                                                                                        class="mt-3 inline-flex items-center gap-1 text-xs text-brand-orange opacity-0 group-hover:opacity-100 transition-all duration-300 hover:gap-2">
+                                                                                                        <span>زيارة الموقع</span>
+                                                                                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                                                                        </svg>
+                                                                                                    </a>
+                                                                                                ` : ''}
                                     </div>
                                     
                                     <!-- Corner Accent -->
@@ -1289,18 +1289,45 @@
 
                     let cardsHTML = '';
                     data.forEach(branch => {
+                        // Determine valid embed URL
+                        let embedUrl = branch.map_url;
+                        if (!embedUrl.includes('embed')) {
+                            // Fallback to search query embed if not a specific embed link
+                            // Using the branch name and region as search terms
+                            const query = encodeURIComponent(branch.name + ' ' + branch.region);
+                            embedUrl =
+                                `https://maps.google.com/maps?q=${query}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+                        }
+
                         cardsHTML += `
-                            <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 group scroll-reveal revealed">
-                                <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-brand-orange mb-6 group-hover:bg-brand-orange group-hover:text-white transition-colors">
-                                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
+                            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 hover:shadow-xl transition-all hover:-translate-y-1 group scroll-reveal revealed">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-brand-orange">
+                                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-900">${branch.name}</h3>
+                                        <p class="text-sm text-slate-500">${branch.region}</p>
+                                    </div>
                                 </div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-2">${branch.name}</h3>
-                                <p class="text-slate-500 mb-6">${branch.region}</p>
-                                <a href="${branch.map_url}" target="_blank" class="inline-flex items-center gap-2 text-brand-orange font-bold hover:text-orange-700 transition-colors">
-                                    <span>عرض الموقع على الخريطة</span>
+                                
+                                <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 mb-3 relative bg-gray-200">
+                                    <iframe 
+                                        src="${embedUrl}" 
+                                        width="100%" 
+                                        height="200" 
+                                        style="border:0;" 
+                                        allowfullscreen="" 
+                                        loading="lazy" 
+                                        referrerpolicy="no-referrer-when-downgrade">
+                                    </iframe>
+                                </div>
+
+                                <a href="${branch.map_url}" target="_blank" class="w-full flex items-center justify-center gap-2 bg-white text-slate-700 hover:text-brand-orange py-2 px-4 rounded-lg border border-gray-200 hover:border-brand-orange transition-colors text-sm font-bold">
+                                    <span>فتح في خرائط جوجل</span>
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                     </svg>
